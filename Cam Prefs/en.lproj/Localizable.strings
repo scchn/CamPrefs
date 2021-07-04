@@ -1,0 +1,26 @@
+/* 關於 */
+"About_This_App" = "About Cam Prefs";
+
+/* No comment provided by engineer. */
+"Create_Input_Failed" = "Preview Initialization Failed.";
+
+/* 未找到裝置 */
+"No_Devices" = "No Devices";
+
+/* No comment provided by engineer. */
+"OK" = "OK";
+
+/* No comment provided by engineer. */
+"Open_System_Preferences" = "Open System Preferences";
+
+/* No comment provided by engineer. */
+"Permission_Denied.Message" = "Please check camera permissions.";
+
+/* No comment provided by engineer. */
+"Permission_Denied.Title" = "Permission Denied";
+
+/* 結束程式 */
+"Quit_App" = "Quit Cam Prefs";
+
+/* 不支援 */
+"Unsupported_Option" = "Unsupported Option";

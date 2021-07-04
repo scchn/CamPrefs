@@ -1,0 +1,9 @@
+/* 
+  InfoPlist.strings
+  Cam Prefs
+
+  Created by scchn on 2021/7/1.
+  
+*/
+
+"NSCameraUsageDescription" = "Cam Prefs needs access to your camera to preview video.";

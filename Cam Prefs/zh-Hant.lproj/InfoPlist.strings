@@ -1,0 +1,9 @@
+/* 
+  InfoPlist.strings
+  Cam Prefs
+
+  Created by scchn on 2021/7/1.
+  
+*/
+
+"NSCameraUsageDescription" = "Cam Prefs 需取用您的攝影機用以預覽畫面。";

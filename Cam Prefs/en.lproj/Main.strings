@@ -1,0 +1,116 @@
+/* Class = "NSButtonCell"; title = "https://github.com/scchn"; ObjectID = "0PR-vW-j9a"; */
+"0PR-vW-j9a.title" = "https://github.com/scchn";
+
+/* Class = "NSButtonCell"; title = "Reset to Default"; ObjectID = "0Qe-lw-f6o"; */
+"0Qe-lw-f6o.title" = "Reset to Default";
+
+/* Class = "NSMenuItem"; title = "Cam Prefs"; ObjectID = "1Xt-HY-uBw"; */
+"1Xt-HY-uBw.title" = "Cam Prefs";
+
+/* Class = "NSSegmentedCell"; 3XV-V8-bAk.ibShadowedLabels[0] = "Disabled"; ObjectID = "3XV-V8-bAk"; */
+"3XV-V8-bAk.ibShadowedLabels[0]" = "Disabled";
+
+/* Class = "NSSegmentedCell"; 3XV-V8-bAk.ibShadowedLabels[1] = "50 Hz"; ObjectID = "3XV-V8-bAk"; */
+"3XV-V8-bAk.ibShadowedLabels[1]" = "50 Hz";
+
+/* Class = "NSSegmentedCell"; 3XV-V8-bAk.ibShadowedLabels[2] = "60 Hz"; ObjectID = "3XV-V8-bAk"; */
+"3XV-V8-bAk.ibShadowedLabels[2]" = "60 Hz";
+
+/* Class = "NSSegmentedCell"; 3XV-V8-bAk.ibShadowedLabels[3] = "Auto"; ObjectID = "3XV-V8-bAk"; */
+"3XV-V8-bAk.ibShadowedLabels[3]" = "Auto";
+
+/* Class = "NSTextFieldCell"; title = "Gamma"; ObjectID = "5Jm-SX-fBd"; */
+"5Jm-SX-fBd.title" = "Gamma";
+
+/* Class = "NSTextFieldCell"; title = "Tilt"; ObjectID = "FRM-ZZ-eh3"; */
+"FRM-ZZ-eh3.title" = "Tilt";
+
+/* Class = "NSTextFieldCell"; title = "<Camera Name>"; ObjectID = "JAN-n5-84f"; */
+"JAN-n5-84f.title" = "<Camera Name>";
+
+/* Class = "NSTextFieldCell"; title = "Sharpness"; ObjectID = "JSB-us-BH0"; */
+"JSB-us-BH0.title" = "Sharpness";
+
+/* Class = "NSSegmentedCell"; JTP-lq-tZN.ibShadowedLabels[0] = "Off"; ObjectID = "JTP-lq-tZN"; */
+"JTP-lq-tZN.ibShadowedLabels[0]" = "Off";
+
+/* Class = "NSSegmentedCell"; JTP-lq-tZN.ibShadowedLabels[1] = "On"; ObjectID = "JTP-lq-tZN"; */
+"JTP-lq-tZN.ibShadowedLabels[1]" = "On";
+
+/* Class = "NSTextFieldCell"; title = "Contrast"; ObjectID = "Kc2-OM-QTv"; */
+"Kc2-OM-QTv.title" = "Contrast";
+
+/* Class = "NSTextFieldCell"; title = "Zoom"; ObjectID = "ktq-TA-ae2"; */
+"ktq-TA-ae2.title" = "Zoom";
+
+/* Class = "NSTextFieldCell"; title = "Cam Prefs"; ObjectID = "LxG-1V-3Cz"; */
+"LxG-1V-3Cz.title" = "Cam Prefs";
+
+/* Class = "NSSegmentedCell"; mJP-cZ-Fbz.ibShadowedLabels[0] = "Manual"; ObjectID = "mJP-cZ-Fbz"; */
+"mJP-cZ-Fbz.ibShadowedLabels[0]" = "Manual";
+
+/* Class = "NSSegmentedCell"; mJP-cZ-Fbz.ibShadowedLabels[1] = "Auto"; ObjectID = "mJP-cZ-Fbz"; */
+"mJP-cZ-Fbz.ibShadowedLabels[1]" = "Auto";
+
+/* Class = "NSSegmentedCell"; mJP-cZ-Fbz.ibShadowedLabels[2] = "Shutter Priority"; ObjectID = "mJP-cZ-Fbz"; */
+"mJP-cZ-Fbz.ibShadowedLabels[2]" = "Shutter Priority";
+
+/* Class = "NSSegmentedCell"; mJP-cZ-Fbz.ibShadowedLabels[3] = "Aperture Priority"; ObjectID = "mJP-cZ-Fbz"; */
+"mJP-cZ-Fbz.ibShadowedLabels[3]" = "Aperture Priority";
+
+/* Class = "NSTextFieldCell"; title = "Icons by"; ObjectID = "N8G-gx-V3B"; */
+"N8G-gx-V3B.title" = "Icons by";
+
+/* Class = "NSTextFieldCell"; title = "Auto Exposure Mode"; ObjectID = "ngg-wx-IaZ"; */
+"ngg-wx-IaZ.title" = "Auto Exposure Mode";
+
+/* Class = "NSTextFieldCell"; title = "Exposure Time"; ObjectID = "NPi-Ib-qY6"; */
+"NPi-Ib-qY6.title" = "Exposure Time";
+
+/* Class = "NSTextFieldCell"; title = "Hue"; ObjectID = "pqZ-21-FNT"; */
+"pqZ-21-FNT.title" = "Hue";
+
+/* Class = "NSTextFieldCell"; title = "Pan"; ObjectID = "qOh-yI-Cvi"; */
+"qOh-yI-Cvi.title" = "Pan";
+
+/* Class = "NSButtonCell"; title = "Auto"; ObjectID = "r9D-7H-UpB"; */
+"r9D-7H-UpB.title" = "Auto";
+
+/* Class = "NSTextFieldCell"; title = "Power-Line Frequency"; ObjectID = "t22-wL-fYi"; */
+"t22-wL-fYi.title" = "Power-Line Frequency";
+
+/* Class = "NSTextFieldCell"; title = "Backlight Compensation"; ObjectID = "TOZ-tw-azv"; */
+"TOZ-tw-azv.title" = "Backlight Compensation";
+
+/* Class = "NSButtonCell"; title = "Icons8"; ObjectID = "u8g-vH-82Y"; */
+"u8g-vH-82Y.title" = "Icons8";
+
+/* Class = "NSMenu"; title = "Cam Prefs"; ObjectID = "uQy-DD-JDr"; */
+"uQy-DD-JDr.title" = "Cam Prefs";
+
+/* Class = "NSTextFieldCell"; title = "Focus"; ObjectID = "urM-vS-ktA"; */
+"urM-vS-ktA.title" = "Focus";
+
+/* Class = "NSTextFieldCell"; title = "Gain"; ObjectID = "VIL-Ff-gwV"; */
+"VIL-Ff-gwV.title" = "Gain";
+
+/* Class = "NSSegmentedCell"; W0K-Xu-ygb.ibShadowedLabels[0] = "General"; ObjectID = "W0K-Xu-ygb"; */
+"W0K-Xu-ygb.ibShadowedLabels[0]" = "General";
+
+/* Class = "NSSegmentedCell"; W0K-Xu-ygb.ibShadowedLabels[1] = "Advanced"; ObjectID = "W0K-Xu-ygb"; */
+"W0K-Xu-ygb.ibShadowedLabels[1]" = "Advanced";
+
+/* Class = "NSTextFieldCell"; title = "White Balance Temperature"; ObjectID = "W2o-Vw-FXs"; */
+"W2o-Vw-FXs.title" = "White Balance Temperature";
+
+/* Class = "NSTextFieldCell"; title = "Saturation"; ObjectID = "wCI-wG-tag"; */
+"wCI-wG-tag.title" = "Saturation";
+
+/* Class = "NSTextFieldCell"; title = "Brightness"; ObjectID = "XKH-Tw-jb2"; */
+"XKH-Tw-jb2.title" = "Brightness";
+
+/* Class = "NSButtonCell"; title = "Auto"; ObjectID = "zhf-nR-9LH"; */
+"zhf-nR-9LH.title" = "Auto";
+
+/* Class = "NSTextFieldCell"; title = "<Version>"; ObjectID = "VXD-cm-9v5"; */
+"VXD-cm-9v5.title" = "";

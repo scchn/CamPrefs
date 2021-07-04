@@ -1,0 +1,26 @@
+/* 關於 */
+"About_This_App" = "關於 Cam Prefs";
+
+/* No comment provided by engineer. */
+"Create_Input_Failed" = "無法啟動攝影機。";
+
+/* 未找到裝置 */
+"No_Devices" = "無裝置";
+
+/* No comment provided by engineer. */
+"OK" = "好";
+
+/* No comment provided by engineer. */
+"Open_System_Preferences" = "開啟系統偏好設定";
+
+/* No comment provided by engineer. */
+"Permission_Denied.Message" = "您可在系統偏好設定更改此項設定。";
+
+/* No comment provided by engineer. */
+"Permission_Denied.Title" = "Cam Prefs 目前無法取用攝影機";
+
+/* 結束程式 */
+"Quit_App" = "結束 Cam Prefs";
+
+/* 不支援的模式 */
+"Unsupported_Option" = "不支援此模式。";
