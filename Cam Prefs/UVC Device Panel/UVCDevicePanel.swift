@@ -21,7 +21,7 @@ class UVCDevicePanel {
     
     init?(captureDevice: AVCaptureDevice) {
         guard let vid = captureDevice.vendorID, let pid = captureDevice.productID,
-              let uvcDevice = UVCContext.shared?.findDevice(vid: vid, pid: pid)
+              let uvcDevice = UVCContext.shared.findDevice(vid: vid, pid: pid)
         else { return nil }
         
         self.uvcDevice = uvcDevice

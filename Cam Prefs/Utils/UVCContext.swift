@@ -17,11 +17,9 @@ class UVCContext {
         uvc_exit(context)
     }
     
-    private init?() {
+    private init() {
         var context: OpaquePointer?
-        guard uvc_init(&context, nil) == UVC_SUCCESS,
-              let context = context
-        else { return nil }
+        guard uvc_init(&context, nil) == UVC_SUCCESS, let context = context else { fatalError() }
         self.context = context
     }
     
