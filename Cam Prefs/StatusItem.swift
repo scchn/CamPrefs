@@ -20,21 +20,24 @@ class StatusItem {
     init() {
         let image = #imageLiteral(resourceName: "status_item")
         image.isTemplate = true
+        statusItem.button?.image = image
+        statusItem.menu = menu
+        setupObservers()
         
-        self.statusItem.button?.image = image
-        self.statusItem.menu = menu
+        // Initial Refresh of Device List
+        let sessVideo = AVCaptureDevice.DiscoverySession(deviceTypes: [.externalUnknown],
+                                                         mediaType: .video,
+                                                         position: .unspecified)
+        let sessMuxed = AVCaptureDevice.DiscoverySession(deviceTypes: [.externalUnknown],
+                                                         mediaType: .muxed,
+                                                         position: .unspecified)
+        let devices = sessVideo.devices + sessMuxed.devices
         
-        let captureDevices = AVCaptureDevice
-            .DiscoverySession(deviceTypes: [.externalUnknown], mediaType: .video, position: .unspecified)
-            .devices
-        
-        if captureDevices.isEmpty {
+        if devices.isEmpty {
             refreshMenu()
         } else {
-            captureDevices.forEach(deviceWasConnected(_:))
+            devices.forEach(deviceWasConnected(_:))
         }
-        
-        setupObservers()
     }
     
     private func setupObservers() {
