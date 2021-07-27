@@ -8,6 +8,34 @@
 import Cocoa
 import AVFoundation
 
+fileprivate extension NSImage {
+    
+    static var appStatusItem: NSImage {
+        let image = #imageLiteral(resourceName: "status_item")
+        image.isTemplate = true
+        return image
+    }
+    
+    static var camera: NSImage {
+        let image = #imageLiteral(resourceName: "camera")
+        image.isTemplate = true
+        return image
+    }
+        
+    static var about: NSImage {
+        let image = #imageLiteral(resourceName: "about")
+        image.isTemplate = true
+        return image
+    }
+    
+    static var quit: NSImage {
+        let image = #imageLiteral(resourceName: "quit")
+        image.isTemplate = true
+        return image
+    }
+    
+}
+
 class StatusItem {
     
     private let statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
@@ -18,9 +46,7 @@ class StatusItem {
     private var aboutWindowController = AboutWindowController.instantiate(from: .main)
     
     init() {
-        let image = #imageLiteral(resourceName: "status_item")
-        image.isTemplate = true
-        statusItem.button?.image = image
+        statusItem.button?.image = .appStatusItem
         statusItem.menu = menu
         setupObservers()
         
@@ -31,27 +57,40 @@ class StatusItem {
         let sessMuxed = AVCaptureDevice.DiscoverySession(deviceTypes: [.externalUnknown],
                                                          mediaType: .muxed,
                                                          position: .unspecified)
-        let devices = sessVideo.devices + sessMuxed.devices
         
-        if devices.isEmpty {
-            refreshMenu()
-        } else {
-            devices.forEach(deviceWasConnected(_:))
-        }
+        devicesWasConnected(sessVideo.devices + sessMuxed.devices)
     }
+    
+    // MARK: - Device Observation
     
     private func setupObservers() {
         let center = NotificationCenter.default
         
         center.addObserver(forName: .AVCaptureDeviceWasConnected, object: nil, queue: .main) { noti in
             guard let device = noti.object as? AVCaptureDevice else { return }
-            self.deviceWasConnected(device)
+            self.devicesWasConnected([device])
         }
         
         center.addObserver(forName: .AVCaptureDeviceWasDisconnected, object: nil, queue: .main) { noti in
             guard let device = noti.object as? AVCaptureDevice else { return }
-            self.deviceWasDisconnected(device)
+            self.devicesWasDisconnected([device])
         }
+    }
+    
+    private func devicesWasConnected(_ devices: [AVCaptureDevice]) {
+        for device in devices {
+            guard let panel = UVCDevicePanel(captureDevice: device) else { continue }
+            uvcDevicePanels.append(panel)
+        }
+        refreshMenu()
+    }
+    
+    private func devicesWasDisconnected(_ devices: [AVCaptureDevice]) {
+        for device in devices {
+            guard let index = uvcDevicePanels.firstIndex(where: { $0.captureDevice == device }) else { continue }
+            uvcDevicePanels.remove(at: index)
+        }
+        refreshMenu()
     }
     
     /// 更新主選單
@@ -59,57 +98,37 @@ class StatusItem {
         menu.removeAllItems()
         
         // Camera
-        let cameraImage = #imageLiteral(resourceName: "camera")
-        cameraImage.isTemplate = true
-        
         if !uvcDevicePanels.isEmpty {
             for device in uvcDevicePanels.map(\.captureDevice) {
-                let title = device.localizedName
-                let action = #selector(deviceMenuItemAction(_:))
-                let item = menu.addItem(withTitle: title, action: action, keyEquivalent: "")
+                let item = menu.addItem(withTitle: device.localizedName,
+                                        action: #selector(deviceMenuItemAction(_:)),
+                                        keyEquivalent: "")
                 item.target = self
                 item.representedObject = device
-                item.image = cameraImage
+                item.image = .camera
             }
         } else {
-            let title = NSLocalizedString("No_Devices", comment: "未找到裝置")
-            let item = menu.addItem(withTitle: title, action: nil, keyEquivalent: "")
+            let item = menu.addItem(withTitle: NSLocalizedString("No_Devices", comment: "未找到裝置"),
+                                    action: nil,
+                                    keyEquivalent: "")
             item.isEnabled = false
-            item.image = cameraImage
+            item.image = .camera
         }
         
         menu.addItem(.separator())
         
         // About
-        let aboutImage = #imageLiteral(resourceName: "about")
-        let aboutTitle = NSLocalizedString("About_This_App", comment: "關於")
-        let about = menu.addItem(withTitle: aboutTitle, action: #selector(showAbout), keyEquivalent: "")
+        let about = menu.addItem(withTitle: NSLocalizedString("About_This_App", comment: "關於"),
+                                 action: #selector(showAbout),
+                                 keyEquivalent: "")
         about.target = self
-        aboutImage.isTemplate = true
-        about.image = aboutImage
+        about.image = .about
         
         // Quit
-        let quitImage = #imageLiteral(resourceName: "quit")
-        let quitTitle = NSLocalizedString("Quit_App", comment: "結束程式")
-        let quit = menu.addItem(withTitle: quitTitle, action: #selector(NSApplication.terminate(_:)), keyEquivalent: "")
-        quitImage.isTemplate = true
-        quit.image = quitImage
-    }
-    
-    /// 攝影機連線事件
-    private func deviceWasConnected(_ device: AVCaptureDevice) {
-        if let panel = UVCDevicePanel(captureDevice: device) {
-            uvcDevicePanels.append(panel)
-        }
-        refreshMenu()
-    }
-    
-    /// 攝影機斷線事件
-    private func deviceWasDisconnected(_ device: AVCaptureDevice) {
-        if let index = uvcDevicePanels.firstIndex(where: { $0.captureDevice == device }) {
-            uvcDevicePanels.remove(at: index)
-        }
-        refreshMenu()
+        let quit = menu.addItem(withTitle: NSLocalizedString("Quit_App", comment: "結束程式"),
+                                action: #selector(NSApplication.terminate(_:)),
+                                keyEquivalent: "")
+        quit.image = .quit
     }
     
     // MARK: - UI Actions
