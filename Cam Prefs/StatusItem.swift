@@ -51,14 +51,13 @@ class StatusItem {
         setupObservers()
         
         // Initial Refresh of Device List
-        let sessVideo = AVCaptureDevice.DiscoverySession(deviceTypes: [.externalUnknown],
-                                                         mediaType: .video,
-                                                         position: .unspecified)
-        let sessMuxed = AVCaptureDevice.DiscoverySession(deviceTypes: [.externalUnknown],
-                                                         mediaType: .muxed,
-                                                         position: .unspecified)
+        let discSess = AVCaptureDevice.DiscoverySession(
+            deviceTypes: [.externalUnknown],
+            mediaType: .video,
+            position: .unspecified
+        )
         
-        devicesWasConnected(sessVideo.devices + sessMuxed.devices)
+        devicesWasConnected(discSess.devices)
     }
     
     // MARK: - Device Observation

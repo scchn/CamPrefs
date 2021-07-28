@@ -207,21 +207,6 @@ class UVCDeviceViewController: NSViewController {
         alert.beginSheetModal(for: window)
     }
     
-    private func showAccessError() {
-        guard let window = view.window else { return }
-        let alert = NSAlert()
-        alert.alertStyle = .critical
-        alert.messageText = NSLocalizedString("Permission_Denied.Title", comment: "")
-        alert.informativeText = NSLocalizedString("Permission_Denied.Message", comment: "")
-        alert.addButton(withTitle: NSLocalizedString("Open_System_Preferences", comment: ""))
-        alert.addButton(withTitle: NSLocalizedString("OK", comment: ""))
-        alert.beginSheetModal(for: window) { response in
-            guard response == .alertFirstButtonReturn else { return }
-            let url = URL(string: "x-apple.systempreferences:com.apple.preference.security?Privacy_Camera")!
-            NSWorkspace.shared.open(url)
-        }
-    }
-    
     private func showCameraError() {
         guard let window = view.window else { return }
         let alert = NSAlert()
@@ -229,14 +214,6 @@ class UVCDeviceViewController: NSViewController {
         alert.messageText = NSLocalizedString("Create_Input_Failed", comment: "")
         alert.informativeText = ""
         alert.beginSheetModal(for: window)
-    }
-    
-    private func requestCameraAccess(_ completionHandler: @escaping (Bool) -> Void) {
-        AVCaptureDevice.requestAccess(for: .video) { ok in
-            DispatchQueue.main.async {
-                completionHandler(ok)
-            }
-        }
     }
     
     // MARK: - UI Actions
@@ -251,31 +228,18 @@ class UVCDeviceViewController: NSViewController {
     }
         
     @IBAction func previewButton(_ sender: Any) {
-        requestCameraAccess { [weak self] ok in
-            guard let self = self else { return }
-            
-            guard ok else {
-                self.showAccessError()
-                NSApp.activate(ignoringOtherApps: true)
-                return
-            }
-            
-            guard let previewLayer = self.viewModel.previewLayer else {
-                self.showCameraError()
-                NSApp.activate(ignoringOtherApps: true)
-                return
-            }
-            
-            NSApp.activate(ignoringOtherApps: true)
-            
-            if self.previewView.layer?.sublayers?.contains(previewLayer) != true {
-                previewLayer.autoresizingMask = [.layerWidthSizable, .layerHeightSizable]
-                previewLayer.frame = self.previewView.bounds
-                self.previewView.layer?.addSublayer(previewLayer)
-            }
-            
-            self.viewModel.togglePreview()
+        guard let previewLayer = viewModel.previewLayer else {
+            showCameraError()
+            return
         }
+        
+        if previewView.layer?.sublayers?.contains(previewLayer) != true {
+            previewLayer.autoresizingMask = [.layerWidthSizable, .layerHeightSizable]
+            previewLayer.frame = self.previewView.bounds
+            previewView.layer?.addSublayer(previewLayer)
+        }
+        
+        viewModel.togglePreview()
     }
     
 }
