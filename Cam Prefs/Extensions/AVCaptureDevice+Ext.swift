@@ -11,17 +11,31 @@ import AVFoundation
 extension AVCaptureDevice {
     
     var productID: Int? {
-        guard uniqueID.count >= 8 else { return nil }
-        let end = uniqueID.endIndex
-        let start = uniqueID.index(end, offsetBy: -4)
-        return Int(uniqueID[start..<end], radix: 16)
+        if #available(macOS 12, *) {
+            let components = self.uniqueID.components(separatedBy: "-")
+            guard components.count >= 5 else { return nil }
+            return Int(components[3], radix: 16)
+        } else {
+            guard uniqueID.count >= 8 else { return nil }
+            let end = uniqueID.endIndex
+            let start = uniqueID.index(end, offsetBy: -4)
+            return Int(uniqueID[start..<end], radix: 16)
+        }
     }
     
     var vendorID: Int? {
-        guard uniqueID.count >= 8 else { return nil }
-        let end = uniqueID.index(uniqueID.endIndex, offsetBy: -4)
-        let start = uniqueID.index(end, offsetBy: -4)
-        return Int(uniqueID[start..<end], radix: 16)
+        if #available(macOS 12, *) {
+            let components = self.uniqueID.components(separatedBy: "-")
+            guard components.count >= 5, components[4].count >= 8 else { return nil }
+            let pID = components[4]
+            let range = pID.startIndex...pID.index(pID.startIndex, offsetBy: 7)
+            return Int(pID[range], radix: 16)
+        } else {
+            guard uniqueID.count >= 8 else { return nil }
+            let end = uniqueID.index(uniqueID.endIndex, offsetBy: -4)
+            let start = uniqueID.index(end, offsetBy: -4)
+            return Int(uniqueID[start..<end], radix: 16)
+        }
     }
     
 }
