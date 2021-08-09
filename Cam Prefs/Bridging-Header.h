@@ -8,7 +8,7 @@
 #ifndef Bridging_Header_h
 #define Bridging_Header_h
 
-//#import "UVCDeviceManager.h"
-#import "libuvc.h"
+#include "libusb.h"
+#include "libuvc.h"
 
 #endif /* Bridging_Header_h */

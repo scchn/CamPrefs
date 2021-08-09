@@ -64,9 +64,11 @@ class UVCDevice {
     
     init?(device: OpaquePointer) {
         var device_handle: OpaquePointer?
-        guard uvc_open(device, &device_handle) == UVC_SUCCESS,
-              let device_handle = device_handle
-        else { return nil }
+        let ret = uvc_open(device, &device_handle)
+        
+        print("[UVCDevice] Open: \(String(cString: libusb_error_name(ret.rawValue)))")
+        
+        guard ret == UVC_SUCCESS, let device_handle = device_handle else { return nil }
         
         self.device = device
         self.device_handle = device_handle
