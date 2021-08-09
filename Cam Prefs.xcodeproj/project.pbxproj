@@ -20,10 +20,8 @@
 		7436623026899B3900F94480 /* frame.c in Sources */ = {isa = PBXBuildFile; fileRef = 7436622726899B3900F94480 /* frame.c */; };
 		7436623126899B3900F94480 /* misc.c in Sources */ = {isa = PBXBuildFile; fileRef = 7436622826899B3900F94480 /* misc.c */; };
 		7436623226899B3900F94480 /* stream.c in Sources */ = {isa = PBXBuildFile; fileRef = 7436622926899B3900F94480 /* stream.c */; };
-		7436623426899B5100F94480 /* libusb-1.0.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7436620726899B0800F94480 /* libusb-1.0.0.dylib */; };
 		7450F0A1269039930072955E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7450F09F269039930072955E /* InfoPlist.strings */; };
 		74B559D4268A618F00B4592E /* AVCaptureDevice+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74B559D3268A618F00B4592E /* AVCaptureDevice+Ext.swift */; };
-		850A82C2268D7001002A3743 /* libusb-1.0.0.dylib in Embed Libraries */ = {isa = PBXBuildFile; fileRef = 7436620726899B0800F94480 /* libusb-1.0.0.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		8513B880268B1B70000FE3B1 /* UVCDevice+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8513B87F268B1B70000FE3B1 /* UVCDevice+Ext.swift */; };
 		852B95B0268AAD3800D193C2 /* UVCContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 852B95AF268AAD3800D193C2 /* UVCContext.swift */; };
 		852B95B2268AAF1E00D193C2 /* UVCDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 852B95B1268AAF1E00D193C2 /* UVCDevice.swift */; };
@@ -41,6 +39,8 @@
 		852B95D7268AF7F200D193C2 /* Observable+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 852B95D0268AF7F200D193C2 /* Observable+Ext.swift */; };
 		852B95D8268AF7F200D193C2 /* NSButton+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 852B95D1268AF7F200D193C2 /* NSButton+Rx.swift */; };
 		852B95DD268AFE9A00D193C2 /* NSSlider+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 852B95DC268AFE9A00D193C2 /* NSSlider+Ext.swift */; };
+		85780F5826C108C700554B85 /* libusb-1.0.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 85780F4526C108B900554B85 /* libusb-1.0.0.dylib */; };
+		85780F5926C108C700554B85 /* libusb-1.0.0.dylib in Embed Libraries */ = {isa = PBXBuildFile; fileRef = 85780F4526C108B900554B85 /* libusb-1.0.0.dylib */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		85C9BC23268C18FD001C8295 /* NSSegmentedControl+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85C9BC22268C18FD001C8295 /* NSSegmentedControl+Rx.swift */; };
 		85C9BC2A268C4F6D001C8295 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 85C9BC2C268C4F6D001C8295 /* Localizable.strings */; };
 		85C9BC2F268C5A6F001C8295 /* AboutWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 85C9BC2E268C5A6F001C8295 /* AboutWindowController.swift */; };
@@ -49,72 +49,72 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		7436620626899B0800F94480 /* PBXContainerItemProxy */ = {
+		85780F4426C108B900554B85 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 743661F826899B0800F94480 /* libusb.xcodeproj */;
+			containerPortal = 85780F3626C108B900554B85 /* libusb.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 008FBF311628B79300BC5BE2;
 			remoteInfo = libusb;
 		};
-		7436620826899B0800F94480 /* PBXContainerItemProxy */ = {
+		85780F4626C108B900554B85 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 743661F826899B0800F94480 /* libusb.xcodeproj */;
+			containerPortal = 85780F3626C108B900554B85 /* libusb.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 008FBFF51628BB8B00BC5BE2;
 			remoteInfo = dpfp;
 		};
-		7436620A26899B0800F94480 /* PBXContainerItemProxy */ = {
+		85780F4826C108B900554B85 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 743661F826899B0800F94480 /* libusb.xcodeproj */;
+			containerPortal = 85780F3626C108B900554B85 /* libusb.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 008FC0051628BBDB00BC5BE2;
 			remoteInfo = dpfp_threaded;
 		};
-		7436620C26899B0800F94480 /* PBXContainerItemProxy */ = {
+		85780F4A26C108B900554B85 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 743661F826899B0800F94480 /* libusb.xcodeproj */;
+			containerPortal = 85780F3626C108B900554B85 /* libusb.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 008FC0151628BC0300BC5BE2;
 			remoteInfo = fxload;
 		};
-		7436620E26899B0800F94480 /* PBXContainerItemProxy */ = {
+		85780F4C26C108B900554B85 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 743661F826899B0800F94480 /* libusb.xcodeproj */;
+			containerPortal = 85780F3626C108B900554B85 /* libusb.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 006AD41C1C8C5A90007F8C6A;
 			remoteInfo = hotplugtest;
 		};
-		7436621026899B0800F94480 /* PBXContainerItemProxy */ = {
+		85780F4E26C108B900554B85 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 743661F826899B0800F94480 /* libusb.xcodeproj */;
+			containerPortal = 85780F3626C108B900554B85 /* libusb.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 008FC0261628BC6B00BC5BE2;
 			remoteInfo = listdevs;
 		};
-		7436621226899B0800F94480 /* PBXContainerItemProxy */ = {
+		85780F5026C108B900554B85 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 743661F826899B0800F94480 /* libusb.xcodeproj */;
+			containerPortal = 85780F3626C108B900554B85 /* libusb.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 20468D67243298AE00650534;
 			remoteInfo = sam3u_benchmark;
 		};
-		7436621426899B0800F94480 /* PBXContainerItemProxy */ = {
+		85780F5226C108B900554B85 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 743661F826899B0800F94480 /* libusb.xcodeproj */;
+			containerPortal = 85780F3626C108B900554B85 /* libusb.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 008A23D3236C8594004854AA;
 			remoteInfo = stress;
 		};
-		7436621626899B0800F94480 /* PBXContainerItemProxy */ = {
+		85780F5426C108B900554B85 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 743661F826899B0800F94480 /* libusb.xcodeproj */;
+			containerPortal = 85780F3626C108B900554B85 /* libusb.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 20468D75243298D300650534;
 			remoteInfo = testlibusb;
 		};
-		7436621826899B0800F94480 /* PBXContainerItemProxy */ = {
+		85780F5626C108B900554B85 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 743661F826899B0800F94480 /* libusb.xcodeproj */;
+			containerPortal = 85780F3626C108B900554B85 /* libusb.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 008FBFBD1628B9FE00BC5BE2;
 			remoteInfo = xusb;
@@ -128,7 +128,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				850A82C2268D7001002A3743 /* libusb-1.0.0.dylib in Embed Libraries */,
+				85780F5926C108C700554B85 /* libusb-1.0.0.dylib in Embed Libraries */,
 			);
 			name = "Embed Libraries";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -143,7 +143,6 @@
 		743661EE268994B300F94480 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		743661F0268994B300F94480 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		743661F1268994B300F94480 /* Cam_Prefs.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Cam_Prefs.entitlements; sourceTree = "<group>"; };
-		743661F826899B0800F94480 /* libusb.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = libusb.xcodeproj; path = libusb/Xcode/libusb.xcodeproj; sourceTree = SOURCE_ROOT; };
 		7436621B26899B3900F94480 /* utlist.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = utlist.h; sourceTree = "<group>"; };
 		7436621D26899B3900F94480 /* libuvc_config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = libuvc_config.h; sourceTree = "<group>"; };
 		7436621E26899B3900F94480 /* libuvc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = libuvc.h; sourceTree = "<group>"; };
@@ -178,6 +177,7 @@
 		852B95D0268AF7F200D193C2 /* Observable+Ext.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Observable+Ext.swift"; sourceTree = "<group>"; };
 		852B95D1268AF7F200D193C2 /* NSButton+Rx.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "NSButton+Rx.swift"; sourceTree = "<group>"; };
 		852B95DC268AFE9A00D193C2 /* NSSlider+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSSlider+Ext.swift"; sourceTree = "<group>"; };
+		85780F3626C108B900554B85 /* libusb.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = libusb.xcodeproj; path = libusb/Xcode/libusb.xcodeproj; sourceTree = "<group>"; };
 		85C9BC22268C18FD001C8295 /* NSSegmentedControl+Rx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSSegmentedControl+Rx.swift"; sourceTree = "<group>"; };
 		85C9BC26268C4BF3001C8295 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Main.strings; sourceTree = "<group>"; };
 		85C9BC2B268C4F6D001C8295 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -194,7 +194,7 @@
 				852B95C9268AF57900D193C2 /* RxCocoa in Frameworks */,
 				852B95C7268AF57900D193C2 /* RxSwift in Frameworks */,
 				852B95CB268AF57900D193C2 /* RxRelay in Frameworks */,
-				7436623426899B5100F94480 /* libusb-1.0.0.dylib in Frameworks */,
+				85780F5826C108C700554B85 /* libusb-1.0.0.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -205,6 +205,7 @@
 			isa = PBXGroup;
 			children = (
 				850A8349268D80EB002A3743 /* README.md */,
+				85780F3626C108B900554B85 /* libusb.xcodeproj */,
 				743661E6268994AF00F94480 /* Cam Prefs */,
 				743661E5268994AF00F94480 /* Products */,
 				7436623326899B5100F94480 /* Frameworks */,
@@ -222,9 +223,8 @@
 		743661E6268994AF00F94480 /* Cam Prefs */ = {
 			isa = PBXGroup;
 			children = (
-				743661F826899B0800F94480 /* libusb.xcodeproj */,
 				743661F726899AEF00F94480 /* libuvc */,
-				852B95CC268AF7B700D193C2 /* RX */,
+				852B95CC268AF7B700D193C2 /* Rx */,
 				852B95B3268ABADA00D193C2 /* Utils */,
 				74B6F4E7268B3F3100E46BB5 /* Extensions */,
 				852B95DB268AFD3A00D193C2 /* UI */,
@@ -250,23 +250,6 @@
 				7436622026899B3900F94480 /* src */,
 			);
 			path = libuvc;
-			sourceTree = "<group>";
-		};
-		743661F926899B0800F94480 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				7436620726899B0800F94480 /* libusb-1.0.0.dylib */,
-				7436620926899B0800F94480 /* dpfp */,
-				7436620B26899B0800F94480 /* dpfp_threaded */,
-				7436620D26899B0800F94480 /* fxload */,
-				7436620F26899B0800F94480 /* hotplugtest */,
-				7436621126899B0800F94480 /* listdevs */,
-				7436621326899B0800F94480 /* sam3u_benchmark */,
-				7436621526899B0800F94480 /* stress */,
-				7436621726899B0800F94480 /* testlibusb */,
-				7436621926899B0800F94480 /* xusb */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 		7436621A26899B3900F94480 /* include */ = {
@@ -349,7 +332,7 @@
 			path = "UVC Device Panel";
 			sourceTree = "<group>";
 		};
-		852B95CC268AF7B700D193C2 /* RX */ = {
+		852B95CC268AF7B700D193C2 /* Rx */ = {
 			isa = PBXGroup;
 			children = (
 				852B95D1268AF7F200D193C2 /* NSButton+Rx.swift */,
@@ -358,7 +341,7 @@
 				852B95D0268AF7F200D193C2 /* Observable+Ext.swift */,
 				852B95CF268AF7F200D193C2 /* SharedSequence+Ext.swift */,
 			);
-			path = RX;
+			path = Rx;
 			sourceTree = "<group>";
 		};
 		852B95DB268AFD3A00D193C2 /* UI */ = {
@@ -370,6 +353,23 @@
 				85C9BC42268C62EB001C8295 /* LinkButton.swift */,
 			);
 			path = UI;
+			sourceTree = "<group>";
+		};
+		85780F3726C108B900554B85 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				85780F4526C108B900554B85 /* libusb-1.0.0.dylib */,
+				85780F4726C108B900554B85 /* dpfp */,
+				85780F4926C108B900554B85 /* dpfp_threaded */,
+				85780F4B26C108B900554B85 /* fxload */,
+				85780F4D26C108B900554B85 /* hotplugtest */,
+				85780F4F26C108B900554B85 /* listdevs */,
+				85780F5126C108B900554B85 /* sam3u_benchmark */,
+				85780F5326C108B900554B85 /* stress */,
+				85780F5526C108B900554B85 /* testlibusb */,
+				85780F5726C108B900554B85 /* xusb */,
+			);
+			name = Products;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -429,8 +429,8 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = 743661F926899B0800F94480 /* Products */;
-					ProjectRef = 743661F826899B0800F94480 /* libusb.xcodeproj */;
+					ProductGroup = 85780F3726C108B900554B85 /* Products */;
+					ProjectRef = 85780F3626C108B900554B85 /* libusb.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -441,74 +441,74 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		7436620726899B0800F94480 /* libusb-1.0.0.dylib */ = {
+		85780F4526C108B900554B85 /* libusb-1.0.0.dylib */ = {
 			isa = PBXReferenceProxy;
 			fileType = "compiled.mach-o.dylib";
 			path = "libusb-1.0.0.dylib";
-			remoteRef = 7436620626899B0800F94480 /* PBXContainerItemProxy */;
+			remoteRef = 85780F4426C108B900554B85 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		7436620926899B0800F94480 /* dpfp */ = {
+		85780F4726C108B900554B85 /* dpfp */ = {
 			isa = PBXReferenceProxy;
 			fileType = "compiled.mach-o.executable";
 			path = dpfp;
-			remoteRef = 7436620826899B0800F94480 /* PBXContainerItemProxy */;
+			remoteRef = 85780F4626C108B900554B85 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		7436620B26899B0800F94480 /* dpfp_threaded */ = {
+		85780F4926C108B900554B85 /* dpfp_threaded */ = {
 			isa = PBXReferenceProxy;
 			fileType = "compiled.mach-o.executable";
 			path = dpfp_threaded;
-			remoteRef = 7436620A26899B0800F94480 /* PBXContainerItemProxy */;
+			remoteRef = 85780F4826C108B900554B85 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		7436620D26899B0800F94480 /* fxload */ = {
+		85780F4B26C108B900554B85 /* fxload */ = {
 			isa = PBXReferenceProxy;
 			fileType = "compiled.mach-o.executable";
 			path = fxload;
-			remoteRef = 7436620C26899B0800F94480 /* PBXContainerItemProxy */;
+			remoteRef = 85780F4A26C108B900554B85 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		7436620F26899B0800F94480 /* hotplugtest */ = {
+		85780F4D26C108B900554B85 /* hotplugtest */ = {
 			isa = PBXReferenceProxy;
 			fileType = "compiled.mach-o.executable";
 			path = hotplugtest;
-			remoteRef = 7436620E26899B0800F94480 /* PBXContainerItemProxy */;
+			remoteRef = 85780F4C26C108B900554B85 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		7436621126899B0800F94480 /* listdevs */ = {
+		85780F4F26C108B900554B85 /* listdevs */ = {
 			isa = PBXReferenceProxy;
 			fileType = "compiled.mach-o.executable";
 			path = listdevs;
-			remoteRef = 7436621026899B0800F94480 /* PBXContainerItemProxy */;
+			remoteRef = 85780F4E26C108B900554B85 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		7436621326899B0800F94480 /* sam3u_benchmark */ = {
+		85780F5126C108B900554B85 /* sam3u_benchmark */ = {
 			isa = PBXReferenceProxy;
 			fileType = "compiled.mach-o.executable";
 			path = sam3u_benchmark;
-			remoteRef = 7436621226899B0800F94480 /* PBXContainerItemProxy */;
+			remoteRef = 85780F5026C108B900554B85 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		7436621526899B0800F94480 /* stress */ = {
+		85780F5326C108B900554B85 /* stress */ = {
 			isa = PBXReferenceProxy;
 			fileType = "compiled.mach-o.executable";
 			path = stress;
-			remoteRef = 7436621426899B0800F94480 /* PBXContainerItemProxy */;
+			remoteRef = 85780F5226C108B900554B85 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		7436621726899B0800F94480 /* testlibusb */ = {
+		85780F5526C108B900554B85 /* testlibusb */ = {
 			isa = PBXReferenceProxy;
 			fileType = "compiled.mach-o.executable";
 			path = testlibusb;
-			remoteRef = 7436621626899B0800F94480 /* PBXContainerItemProxy */;
+			remoteRef = 85780F5426C108B900554B85 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		7436621926899B0800F94480 /* xusb */ = {
+		85780F5726C108B900554B85 /* xusb */ = {
 			isa = PBXReferenceProxy;
 			fileType = "compiled.mach-o.executable";
 			path = xusb;
-			remoteRef = 7436621826899B0800F94480 /* PBXContainerItemProxy */;
+			remoteRef = 85780F5626C108B900554B85 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
