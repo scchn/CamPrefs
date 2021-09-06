@@ -1,11 +1,12 @@
 {
   "images" : [
     {
-      "filename" : "icons8-waving-hand-dark-skin-tone-16.png",
+      "filename" : "icons8-waving-hand-emoji-16.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
+      "filename" : "icons8-waving-hand-emoji-32.png",
       "idiom" : "universal",
       "scale" : "2x"
     },
