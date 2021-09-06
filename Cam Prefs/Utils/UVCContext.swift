@@ -19,16 +19,22 @@ class UVCContext {
     
     private init() {
         var context: OpaquePointer?
-        guard uvc_init(&context, nil) == UVC_SUCCESS, let context = context else { fatalError() }
-        self.context = context
+        
+        if uvc_init(&context, nil) == UVC_SUCCESS, let context = context {
+            self.context = context
+        } else {
+            fatalError()
+        }
     }
     
     func findDevice(vid: Int, pid: Int) -> UVCDevice? {
         var device: OpaquePointer?
-        guard uvc_find_device(context, &device, Int32(vid), Int32(pid), nil) == UVC_SUCCESS,
-              let device = device
-        else { return nil }
-        return UVCDevice(device: device)
+        
+        if uvc_find_device(context, &device, Int32(vid), Int32(pid), nil) == UVC_SUCCESS, let device = device {
+            return UVCDevice(device: device)
+        } else {
+            return nil
+        }
     }
     
 }

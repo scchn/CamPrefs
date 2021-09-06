@@ -137,12 +137,12 @@ class UVCDeviceViewController: NSViewController {
     }
     
     private func setupRefresh() {
-        let autoRefresh = Observable<Int>.interval(.seconds(1), scheduler: MainScheduler.instance)
+        let auto = Observable<Int>.interval(.seconds(1), scheduler: MainScheduler.instance)
             .mapToVoid()
             .startWith(())
-        let forceRefresh = forceRefresh.asObservable()
+        let force = forceRefresh.asObservable()
         
-        Observable.of(autoRefresh, forceRefresh).merge()
+        Observable.of(auto, force).merge()
             .subscribe(onNext: { [weak self] in
                 guard let self = self else { return }
                 self.refreshAllValues()

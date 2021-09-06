@@ -68,12 +68,13 @@ class UVCDevice {
         
         print("[UVCDevice] Open: \(String(cString: libusb_error_name(ret.rawValue)))")
         
-        guard ret == UVC_SUCCESS, let device_handle = device_handle else { return nil }
-        
-        self.device = device
-        self.device_handle = device_handle
-        
-        uvc_get_device_descriptor(device, &device_descriptor_pointer)
+        if ret == UVC_SUCCESS, let device_handle = device_handle {
+            self.device = device
+            self.device_handle = device_handle
+            uvc_get_device_descriptor(device, &device_descriptor_pointer)
+        } else {
+            return nil
+        }
     }
     
     // MARK: - Brightness
