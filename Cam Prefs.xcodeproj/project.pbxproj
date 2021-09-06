@@ -56,69 +56,6 @@
 			remoteGlobalIDString = 008FBF311628B79300BC5BE2;
 			remoteInfo = libusb;
 		};
-		85780F4626C108B900554B85 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 85780F3626C108B900554B85 /* libusb.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 008FBFF51628BB8B00BC5BE2;
-			remoteInfo = dpfp;
-		};
-		85780F4826C108B900554B85 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 85780F3626C108B900554B85 /* libusb.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 008FC0051628BBDB00BC5BE2;
-			remoteInfo = dpfp_threaded;
-		};
-		85780F4A26C108B900554B85 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 85780F3626C108B900554B85 /* libusb.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 008FC0151628BC0300BC5BE2;
-			remoteInfo = fxload;
-		};
-		85780F4C26C108B900554B85 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 85780F3626C108B900554B85 /* libusb.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 006AD41C1C8C5A90007F8C6A;
-			remoteInfo = hotplugtest;
-		};
-		85780F4E26C108B900554B85 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 85780F3626C108B900554B85 /* libusb.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 008FC0261628BC6B00BC5BE2;
-			remoteInfo = listdevs;
-		};
-		85780F5026C108B900554B85 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 85780F3626C108B900554B85 /* libusb.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 20468D67243298AE00650534;
-			remoteInfo = sam3u_benchmark;
-		};
-		85780F5226C108B900554B85 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 85780F3626C108B900554B85 /* libusb.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 008A23D3236C8594004854AA;
-			remoteInfo = stress;
-		};
-		85780F5426C108B900554B85 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 85780F3626C108B900554B85 /* libusb.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 20468D75243298D300650534;
-			remoteInfo = testlibusb;
-		};
-		85780F5626C108B900554B85 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 85780F3626C108B900554B85 /* libusb.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 008FBFBD1628B9FE00BC5BE2;
-			remoteInfo = xusb;
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -359,15 +296,6 @@
 			isa = PBXGroup;
 			children = (
 				85780F4526C108B900554B85 /* libusb-1.0.0.dylib */,
-				85780F4726C108B900554B85 /* dpfp */,
-				85780F4926C108B900554B85 /* dpfp_threaded */,
-				85780F4B26C108B900554B85 /* fxload */,
-				85780F4D26C108B900554B85 /* hotplugtest */,
-				85780F4F26C108B900554B85 /* listdevs */,
-				85780F5126C108B900554B85 /* sam3u_benchmark */,
-				85780F5326C108B900554B85 /* stress */,
-				85780F5526C108B900554B85 /* testlibusb */,
-				85780F5726C108B900554B85 /* xusb */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -446,69 +374,6 @@
 			fileType = "compiled.mach-o.dylib";
 			path = "libusb-1.0.0.dylib";
 			remoteRef = 85780F4426C108B900554B85 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		85780F4726C108B900554B85 /* dpfp */ = {
-			isa = PBXReferenceProxy;
-			fileType = "compiled.mach-o.executable";
-			path = dpfp;
-			remoteRef = 85780F4626C108B900554B85 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		85780F4926C108B900554B85 /* dpfp_threaded */ = {
-			isa = PBXReferenceProxy;
-			fileType = "compiled.mach-o.executable";
-			path = dpfp_threaded;
-			remoteRef = 85780F4826C108B900554B85 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		85780F4B26C108B900554B85 /* fxload */ = {
-			isa = PBXReferenceProxy;
-			fileType = "compiled.mach-o.executable";
-			path = fxload;
-			remoteRef = 85780F4A26C108B900554B85 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		85780F4D26C108B900554B85 /* hotplugtest */ = {
-			isa = PBXReferenceProxy;
-			fileType = "compiled.mach-o.executable";
-			path = hotplugtest;
-			remoteRef = 85780F4C26C108B900554B85 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		85780F4F26C108B900554B85 /* listdevs */ = {
-			isa = PBXReferenceProxy;
-			fileType = "compiled.mach-o.executable";
-			path = listdevs;
-			remoteRef = 85780F4E26C108B900554B85 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		85780F5126C108B900554B85 /* sam3u_benchmark */ = {
-			isa = PBXReferenceProxy;
-			fileType = "compiled.mach-o.executable";
-			path = sam3u_benchmark;
-			remoteRef = 85780F5026C108B900554B85 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		85780F5326C108B900554B85 /* stress */ = {
-			isa = PBXReferenceProxy;
-			fileType = "compiled.mach-o.executable";
-			path = stress;
-			remoteRef = 85780F5226C108B900554B85 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		85780F5526C108B900554B85 /* testlibusb */ = {
-			isa = PBXReferenceProxy;
-			fileType = "compiled.mach-o.executable";
-			path = testlibusb;
-			remoteRef = 85780F5426C108B900554B85 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		85780F5726C108B900554B85 /* xusb */ = {
-			isa = PBXReferenceProxy;
-			fileType = "compiled.mach-o.executable";
-			path = xusb;
-			remoteRef = 85780F5626C108B900554B85 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -725,7 +590,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 5;
-				DEVELOPMENT_TEAM = 2C78ZAFN4V;
+				DEVELOPMENT_TEAM = B8F5X7B8AQ;
 				ENABLE_HARDENED_RUNTIME = YES;
 				HEADER_SEARCH_PATHS = "$(SRCROOT)/libusb/libusb";
 				INFOPLIST_FILE = "Cam Prefs/Info.plist";
@@ -752,7 +617,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 5;
-				DEVELOPMENT_TEAM = 2C78ZAFN4V;
+				DEVELOPMENT_TEAM = B8F5X7B8AQ;
 				ENABLE_HARDENED_RUNTIME = YES;
 				HEADER_SEARCH_PATHS = "$(SRCROOT)/libusb/libusb";
 				INFOPLIST_FILE = "Cam Prefs/Info.plist";
