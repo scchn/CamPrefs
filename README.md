@@ -4,3 +4,4 @@
 
 # ⚠️ Known Issues
 - Unable to open underlying device on macOS 12
+  - Run this app with sudo.
