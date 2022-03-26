@@ -1,8 +1,8 @@
 /* -*- Mode: C; indent-tabs-mode:nil -*- */
 /*
  * darwin backend for libusb 1.0
- * Copyright © 2008-2020 Nathan Hjelm <hjelmn@cs.unm.edu>
- * Copyright © 2019-2020 Google LLC. All rights reserved.
+ * Copyright © 2008-2021 Nathan Hjelm <hjelmn@cs.unm.edu>
+ * Copyright © 2019-2021 Google LLC. All rights reserved.
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Lesser General Public
@@ -43,7 +43,7 @@
 
 /* Default timeout to 10s for reenumerate. This is needed because USBDeviceReEnumerate
  * does not return error status on macOS. */
-#define DARWIN_REENUMERATE_TIMEOUT_US 10000000
+#define DARWIN_REENUMERATE_TIMEOUT_US (10 * USEC_PER_SEC)
 
 #include <AvailabilityMacros.h>
 #if MAC_OS_X_VERSION_MIN_REQUIRED >= 1060 && MAC_OS_X_VERSION_MIN_REQUIRED < 101200
@@ -53,6 +53,9 @@
 #include "darwin_usb.h"
 
 static int init_count = 0;
+
+/* Both kIOMasterPortDefault or kIOMainPortDefault are synonyms for 0. */
+static const mach_port_t darwin_default_master_port = 0;
 
 /* async event thread */
 static pthread_mutex_t libusb_darwin_at_mutex = PTHREAD_MUTEX_INITIALIZER;
@@ -83,6 +86,7 @@ static int darwin_release_interface(struct libusb_device_handle *dev_handle, uin
 static int darwin_reenumerate_device(struct libusb_device_handle *dev_handle, bool capture);
 static int darwin_clear_halt(struct libusb_device_handle *dev_handle, unsigned char endpoint);
 static int darwin_reset_device(struct libusb_device_handle *dev_handle);
+static int darwin_detach_kernel_driver (struct libusb_device_handle *dev_handle, uint8_t interface);
 static void darwin_async_io_callback (void *refcon, IOReturn result, void *arg0);
 
 static enum libusb_error darwin_scan_devices(struct libusb_context *ctx);
@@ -107,6 +111,9 @@ static const char *darwin_error_str (IOReturn result) {
   case kIOReturnExclusiveAccess:
     return "another process has device opened for exclusive access";
   case kIOUSBPipeStalled:
+#if defined(kUSBHostReturnPipeStalled)
+  case kUSBHostReturnPipeStalled:
+#endif
     return "pipe is stalled";
   case kIOReturnError:
     return "could not establish a connection to the Darwin kernel";
@@ -146,16 +153,20 @@ static enum libusb_error darwin_to_libusb (IOReturn result) {
   case kIOReturnExclusiveAccess:
     return LIBUSB_ERROR_ACCESS;
   case kIOUSBPipeStalled:
+#if defined(kUSBHostReturnPipeStalled)
+  case kUSBHostReturnPipeStalled:
+#endif
     return LIBUSB_ERROR_PIPE;
   case kIOReturnBadArgument:
     return LIBUSB_ERROR_INVALID_PARAM;
   case kIOUSBTransactionTimeout:
     return LIBUSB_ERROR_TIMEOUT;
+  case kIOUSBUnknownPipeErr:
+    return LIBUSB_ERROR_NOT_FOUND;
   case kIOReturnNotResponding:
   case kIOReturnAborted:
   case kIOReturnError:
   case kIOUSBNoAsyncPortErr:
-  case kIOUSBUnknownPipeErr:
   default:
     return LIBUSB_ERROR_OTHER;
   }
@@ -248,7 +259,7 @@ static IOReturn usb_setup_device_iterator (io_iterator_t *deviceIterator, UInt32
       CFRelease (locationCF);
   }
 
-  return IOServiceGetMatchingServices(kIOMasterPortDefault, matchingDict, deviceIterator);
+  return IOServiceGetMatchingServices(darwin_default_master_port, matchingDict, deviceIterator);
 }
 
 /* Returns 1 on success, 0 on failure. */
@@ -436,7 +447,7 @@ static void darwin_hotplug_poll (void)
   /* since a kernel thread may notify the IOIterators used for
    * hotplug notification we can't just clear the iterators.
    * instead just wait until all IOService providers are quiet */
-  (void) IOKitWaitQuiet (kIOMasterPortDefault, &timeout);
+  (void) IOKitWaitQuiet (darwin_default_master_port, &timeout);
 }
 
 static void darwin_clear_iterator (io_iterator_t iter) {
@@ -496,7 +507,7 @@ static void *darwin_event_thread_main (void *arg0) {
   CFRunLoopAddSource(runloop, libusb_shutdown_cfsource, kCFRunLoopDefaultMode);
 
   /* add the notification port to the run loop */
-  libusb_notification_port     = IONotificationPortCreate (kIOMasterPortDefault);
+  libusb_notification_port     = IONotificationPortCreate (darwin_default_master_port);
   libusb_notification_cfsource = IONotificationPortGetRunLoopSource (libusb_notification_port);
   CFRunLoopAddSource(runloop, libusb_notification_cfsource, kCFRunLoopDefaultMode);
 
@@ -1245,7 +1256,7 @@ static int darwin_open (struct libusb_device_handle *dev_handle) {
 
     CFRetain (libusb_darwin_acfl);
 
-    /* add the cfSource to the aync run loop */
+    /* add the cfSource to the async run loop */
     CFRunLoopAddSource(libusb_darwin_acfl, priv->cfSource, kCFRunLoopCommonModes);
   }
 
@@ -1379,12 +1390,16 @@ static enum libusb_error get_endpoints (struct libusb_device_handle *dev_handle,
 
   /* current interface */
   struct darwin_interface *cInterface = &priv->interfaces[iface];
+#if InterfaceVersion >= 550
+  IOUSBEndpointProperties pipeProperties = {.bVersion = kUSBEndpointPropertiesVersion3};
+#else
+  UInt8 dont_care1, dont_care3;
+  UInt16 dont_care2;
+#endif
 
   IOReturn kresult;
 
   UInt8 numep, direction, number;
-  UInt8 dont_care1, dont_care3;
-  UInt16 dont_care2;
   int rc;
   struct libusb_context *ctx = HANDLE_CTX (dev_handle);
 
@@ -1400,9 +1415,14 @@ static enum libusb_error get_endpoints (struct libusb_device_handle *dev_handle,
 
   /* iterate through pipe references */
   for (UInt8 i = 1 ; i <= numep ; i++) {
+#if InterfaceVersion >= 550
+    kresult = (*(cInterface->interface))->GetPipePropertiesV3 (cInterface->interface, i, &pipeProperties);
+    number = pipeProperties.bEndpointNumber;
+    direction = pipeProperties.bDirection;
+#else
     kresult = (*(cInterface->interface))->GetPipeProperties(cInterface->interface, i, &direction, &number, &dont_care1,
                                                             &dont_care2, &dont_care3);
-
+#endif
     if (kresult != kIOReturnSuccess) {
       /* probably a buggy device. try to get the endpoint address from the descriptors */
       struct libusb_config_descriptor *config;
@@ -1420,6 +1440,10 @@ static enum libusb_error get_endpoints (struct libusb_device_handle *dev_handle,
         return rc;
       }
 
+      if (iface >= config->bNumInterfaces) {
+        usbi_err (HANDLE_CTX (dev_handle), "interface %d out of range for device", iface);
+        return LIBUSB_ERROR_NOT_FOUND;
+      }
       endpoint_desc = config->interface[iface].altsetting[alt_setting].endpoint + i - 1;
 
       cInterface->endpoint_addrs[i - 1] = endpoint_desc->bEndpointAddress;
@@ -1561,6 +1585,7 @@ static int darwin_release_interface(struct libusb_device_handle *dev_handle, uin
   if (cInterface->cfSource) {
     CFRunLoopRemoveSource (libusb_darwin_acfl, cInterface->cfSource, kCFRunLoopDefaultMode);
     CFRelease (cInterface->cfSource);
+    cInterface->cfSource = NULL;
   }
 
   kresult = (*(cInterface->interface))->USBInterfaceClose(cInterface->interface);
@@ -1576,12 +1601,34 @@ static int darwin_release_interface(struct libusb_device_handle *dev_handle, uin
   return darwin_to_libusb (kresult);
 }
 
+static int check_alt_setting_and_clear_halt(struct libusb_device_handle *dev_handle, uint8_t altsetting, struct darwin_interface *cInterface) {
+  enum libusb_error ret;
+  IOReturn kresult;
+  uint8_t current_alt_setting;
+
+  kresult = (*(cInterface->interface))->GetAlternateSetting (cInterface->interface, &current_alt_setting);
+  if (kresult == kIOReturnSuccess && altsetting != current_alt_setting) {
+    return LIBUSB_ERROR_PIPE;
+  }
+
+  for (int i = 0 ; i < cInterface->num_endpoints ; i++) {
+    ret = darwin_clear_halt(dev_handle, cInterface->endpoint_addrs[i]);
+    if (LIBUSB_SUCCESS != ret) {
+      usbi_warn(HANDLE_CTX (dev_handle), "error clearing pipe halt for endpoint %d", i);
+      if (LIBUSB_ERROR_NOT_FOUND == ret) {
+        /* may need to re-open the interface */
+        return ret;
+      }
+    }
+  }
+
+  return LIBUSB_SUCCESS;
+}
+
 static int darwin_set_interface_altsetting(struct libusb_device_handle *dev_handle, uint8_t iface, uint8_t altsetting) {
   struct darwin_device_handle_priv *priv = usbi_get_device_handle_priv(dev_handle);
   IOReturn kresult;
   enum libusb_error ret;
-  int i;
-  uint8_t old_alt_setting;
 
   /* current interface */
   struct darwin_interface *cInterface = &priv->interfaces[iface];
@@ -1600,34 +1647,31 @@ static int darwin_set_interface_altsetting(struct libusb_device_handle *dev_hand
     }
     return ret;
   }
-  else
-    usbi_warn (HANDLE_CTX (dev_handle), "SetAlternateInterface: %s", darwin_error_str(kresult));
 
-  if (kresult != kIOUSBPipeStalled)
-    return darwin_to_libusb (kresult);
+  usbi_warn (HANDLE_CTX (dev_handle), "SetAlternateInterface: %s", darwin_error_str(kresult));
+
+  ret = darwin_to_libusb(kresult);
+  if (ret != LIBUSB_ERROR_PIPE) {
+    return ret;
+  }
 
   /* If a device only supports a default setting for the specified interface, then a STALL
      (kIOUSBPipeStalled) may be returned. Ref: USB 2.0 specs 9.4.10.
-     Mimick the behaviour in e.g. the Linux kernel: in such case, reset all endpoints
+     Mimic the behaviour in e.g. the Linux kernel: in such case, reset all endpoints
      of the interface (as would have been done per 9.1.1.5) and return success. */
 
-  /* For some reason we need to reclaim the interface after the pipe error */
-  ret = darwin_claim_interface (dev_handle, iface);
-
-  if (ret) {
-    darwin_release_interface (dev_handle, iface);
-    usbi_err (HANDLE_CTX (dev_handle), "could not reclaim interface");
+  ret = check_alt_setting_and_clear_halt(dev_handle, altsetting, cInterface);
+  if (LIBUSB_ERROR_NOT_FOUND == ret) {
+    /* For some reason we need to reclaim the interface after the pipe error with some versions of macOS */
+    ret = darwin_claim_interface (dev_handle, iface);
+    if (LIBUSB_SUCCESS != ret) {
+      darwin_release_interface (dev_handle, iface);
+      usbi_err (HANDLE_CTX (dev_handle), "could not reclaim interface: %s", darwin_error_str(kresult));
+    }
+    ret = check_alt_setting_and_clear_halt(dev_handle, altsetting, cInterface);
   }
 
-  /* Return error if a change to another value was attempted */
-  kresult = (*(cInterface->interface))->GetAlternateSetting (cInterface->interface, &old_alt_setting);
-  if (kresult == kIOReturnSuccess && altsetting != old_alt_setting)
-    return LIBUSB_ERROR_PIPE;
-
-  for (i = 0 ; i < cInterface->num_endpoints ; i++)
-    darwin_clear_halt(dev_handle, cInterface->endpoint_addrs[i]);
-
-  return LIBUSB_SUCCESS;
+  return ret;
 }
 
 static int darwin_clear_halt(struct libusb_device_handle *dev_handle, unsigned char endpoint) {
@@ -1723,7 +1767,6 @@ static int darwin_reenumerate_device (struct libusb_device_handle *dev_handle, b
   IOUSBConfigurationDescriptor *cached_configurations;
   IOReturn kresult;
   UInt8 i;
-  UInt32 time;
 
   struct libusb_context *ctx = HANDLE_CTX (dev_handle);
 
@@ -1746,7 +1789,9 @@ static int darwin_reenumerate_device (struct libusb_device_handle *dev_handle, b
   /* if we need to release capture */
   if (HAS_CAPTURE_DEVICE()) {
     if (capture) {
+#if MAC_OS_X_VERSION_MAX_ALLOWED >= 101000
       options |= kUSBReEnumerateCaptureDeviceMask;
+#endif
     }
   } else {
     capture = false;
@@ -1769,11 +1814,19 @@ static int darwin_reenumerate_device (struct libusb_device_handle *dev_handle, b
 
   usbi_dbg (ctx, "darwin/reenumerate_device: waiting for re-enumeration to complete...");
 
-  time = 0;
+  struct timespec start;
+  usbi_get_monotonic_time(&start);
+
   while (dpriv->in_reenumerate) {
     struct timespec delay = {.tv_sec = 0, .tv_nsec = 1000};
     nanosleep (&delay, NULL);
-    if (time++ >= DARWIN_REENUMERATE_TIMEOUT_US) {
+
+    struct timespec now;
+    usbi_get_monotonic_time(&now);
+    unsigned long elapsed_us = (now.tv_sec - start.tv_sec) * USEC_PER_SEC +
+                                (now.tv_nsec - start.tv_nsec) / 1000;
+
+    if (elapsed_us >= DARWIN_REENUMERATE_TIMEOUT_US) {
       usbi_err (ctx, "darwin/reenumerate_device: timeout waiting for reenumerate");
       dpriv->in_reenumerate = false;
       return LIBUSB_ERROR_TIMEOUT;
@@ -1805,14 +1858,40 @@ static int darwin_reenumerate_device (struct libusb_device_handle *dev_handle, b
 static int darwin_reset_device (struct libusb_device_handle *dev_handle) {
   struct darwin_cached_device *dpriv = DARWIN_CACHED_DEVICE(dev_handle->dev);
   IOReturn kresult;
+  enum libusb_error ret;
 
+#if !defined(TARGET_OS_OSX) || TARGET_OS_OSX == 1
   if (dpriv->capture_count > 0) {
     /* we have to use ResetDevice as USBDeviceReEnumerate() loses the authorization for capture */
     kresult = (*(dpriv->device))->ResetDevice (dpriv->device);
-    return darwin_to_libusb (kresult);
+    ret = darwin_to_libusb (kresult);
   } else {
-    return darwin_reenumerate_device (dev_handle, false);
+    ret = darwin_reenumerate_device (dev_handle, false);
   }
+#else
+  /* ResetDevice() is missing on non-macOS platforms */
+  ret = darwin_reenumerate_device (dev_handle, false);
+  if ((ret == LIBUSB_SUCCESS || ret == LIBUSB_ERROR_NOT_FOUND) && dpriv->capture_count > 0) {
+    int capture_count;
+    int8_t active_config = dpriv->active_config;
+    unsigned long claimed_interfaces = dev_handle->claimed_interfaces;
+
+    /* save old capture_count */
+    capture_count = dpriv->capture_count;
+    /* reset capture count */
+    dpriv->capture_count = 0;
+    /* attempt to detach kernel driver again as it is now re-attached */
+    ret = darwin_detach_kernel_driver (dev_handle, 0);
+    if (ret != LIBUSB_SUCCESS) {
+      return ret;
+    }
+    /* restore capture_count */
+    dpriv->capture_count = capture_count;
+    /* restore configuration */
+    ret = darwin_restore_state (dev_handle, active_config, claimed_interfaces);
+  }
+#endif
+  return ret;
 }
 
 static io_service_t usb_find_interface_matching_location (const io_name_t class_name, UInt8 interface_number, UInt32 location) {
@@ -1831,7 +1910,7 @@ static io_service_t usb_find_interface_matching_location (const io_name_t class_
   CFRelease (locationCF);
   CFRelease (propertyMatchDict);
 
-  return IOServiceGetMatchingService (kIOMasterPortDefault, matchingDict);
+  return IOServiceGetMatchingService (darwin_default_master_port, matchingDict);
 }
 
 static int darwin_kernel_driver_active(struct libusb_device_handle *dev_handle, uint8_t interface) {
@@ -1981,11 +2060,17 @@ static int submit_iso_transfer(struct usbi_transfer *itransfer) {
   struct darwin_transfer_priv *tpriv = usbi_get_transfer_priv(itransfer);
 
   IOReturn kresult;
-  uint8_t direction, number, interval, pipeRef, transferType;
-  uint16_t maxPacketSize;
+  uint8_t pipeRef, interval;
   UInt64 frame;
   AbsoluteTime atTime;
   int i;
+#if InterfaceVersion >= 550
+  IOUSBEndpointProperties pipeProperties = {.bVersion = kUSBEndpointPropertiesVersion3};
+#else
+  /* None of the values below are used in libusb for iso transfers */
+  uint8_t direction, number, transferType;
+  uint16_t maxPacketSize;
+#endif
 
   struct darwin_interface *cInterface;
 
@@ -2017,8 +2102,20 @@ static int submit_iso_transfer(struct usbi_transfer *itransfer) {
   }
 
   /* determine the properties of this endpoint and the speed of the device */
-  (*(cInterface->interface))->GetPipeProperties (cInterface->interface, pipeRef, &direction, &number,
+#if InterfaceVersion >= 550
+  kresult = (*(cInterface->interface))->GetPipePropertiesV3 (cInterface->interface, pipeRef, &pipeProperties);
+  interval = pipeProperties.bInterval;
+#else
+  kresult = (*(cInterface->interface))->GetPipeProperties (cInterface->interface, pipeRef, &direction, &number,
                                                  &transferType, &maxPacketSize, &interval);
+#endif
+  if (kresult != kIOReturnSuccess) {
+    usbi_err (TRANSFER_CTX (transfer), "failed to get pipe properties: %d", kresult);
+    free(tpriv->isoc_framelist);
+    tpriv->isoc_framelist = NULL;
+
+    return darwin_to_libusb (kresult);
+  }
 
   /* Last but not least we need the bus frame number */
   kresult = (*(cInterface->interface))->GetBusFrameNumber(cInterface->interface, &frame, &atTime);
@@ -2029,9 +2126,6 @@ static int submit_iso_transfer(struct usbi_transfer *itransfer) {
 
     return darwin_to_libusb (kresult);
   }
-
-  (*(cInterface->interface))->GetPipeProperties (cInterface->interface, pipeRef, &direction, &number,
-                                                 &transferType, &maxPacketSize, &interval);
 
   /* schedule for a frame a little in the future */
   frame += 4;
@@ -2379,7 +2473,7 @@ static int darwin_free_streams (struct libusb_device_handle *dev_handle, unsigne
 
 /* macOS APIs for getting entitlement values */
 
-#if TARGET_OS_OSX
+#if !defined(TARGET_OS_OSX) || TARGET_OS_OSX == 1
 #include <Security/Security.h>
 #else
 typedef struct __SecTask *SecTaskRef;
@@ -2439,22 +2533,25 @@ static int darwin_detach_kernel_driver (struct libusb_device_handle *dev_handle,
   if (dpriv->capture_count == 0) {
     usbi_dbg (ctx, "attempting to detach kernel driver from device");
 
-    if (!darwin_has_capture_entitlements ()) {
-      usbi_info (ctx, "no capture entitlements. can not detach the kernel driver for this device");
-      return LIBUSB_ERROR_NOT_SUPPORTED;
-    }
+    if (darwin_has_capture_entitlements ()) {
+      /* request authorization */
+      kresult = IOServiceAuthorize (dpriv->service, kIOServiceInteractionAllowed);
+      if (kresult != kIOReturnSuccess) {
+        usbi_warn (ctx, "IOServiceAuthorize: %s", darwin_error_str(kresult));
+        return darwin_to_libusb (kresult);
+      }
 
-    /* request authorization */
-    kresult = IOServiceAuthorize (dpriv->service, kIOServiceInteractionAllowed);
-    if (kresult != kIOReturnSuccess) {
-      usbi_warn (ctx, "IOServiceAuthorize: %s", darwin_error_str(kresult));
-      return darwin_to_libusb (kresult);
-    }
-
-    /* we need start() to be called again for authorization status to refresh */
-    err = darwin_reload_device (dev_handle);
-    if (err != LIBUSB_SUCCESS) {
-      return err;
+      /* we need start() to be called again for authorization status to refresh */
+      err = darwin_reload_device (dev_handle);
+      if (err != LIBUSB_SUCCESS) {
+        return err;
+      }
+    } else {
+      usbi_info (ctx, "no capture entitlements. may not be able to detach the kernel driver for this device");
+      if (0 != geteuid()) {
+        usbi_warn (ctx, "USB device capture requires either an entitlement (com.apple.vm.device-access) or root privilege");
+        return LIBUSB_ERROR_ACCESS;
+      }
     }
 
     /* reset device to release existing drivers */

@@ -31,8 +31,11 @@
 #define inline __inline
 #endif
 /* ssize_t is also not available */
+#ifndef _SSIZE_T_DEFINED
+#define _SSIZE_T_DEFINED
 #include <basetsd.h>
 typedef SSIZE_T ssize_t;
+#endif /* _SSIZE_T_DEFINED */
 #endif /* _MSC_VER */
 
 #include <limits.h>
@@ -136,7 +139,7 @@ typedef SSIZE_T ssize_t;
  * Internally, LIBUSB_API_VERSION is defined as follows:
  * (libusb major << 24) | (libusb minor << 16) | (16 bit incremental)
  */
-#define LIBUSB_API_VERSION 0x01000108
+#define LIBUSB_API_VERSION 0x01000109
 
 /* The following is kept for compatibility, but will be deprecated in the future */
 #define LIBUSBX_API_VERSION LIBUSB_API_VERSION
@@ -979,8 +982,9 @@ struct libusb_version {
  * Sessions are created by libusb_init() and destroyed through libusb_exit().
  * If your application is guaranteed to only ever include a single libusb
  * user (i.e. you), you do not have to worry about contexts: pass NULL in
- * every function call where a context is required. The default context
- * will be used.
+ * every function call where a context is required, and the default context
+ * will be used. Note that libusb_set_option(NULL, ...) is special, and adds
+ * an option to a list of default options for new contexts.
  *
  * For more information, see \ref libusb_contexts.
  */
@@ -989,7 +993,7 @@ typedef struct libusb_context libusb_context;
 /** \ingroup libusb_dev
  * Structure representing a USB device detected on the system. This is an
  * opaque type for which you are only ever provided with a pointer, usually
- * originating from libusb_get_device_list().
+ * originating from libusb_get_device_list() or libusb_hotplug_register_callback().
  *
  * Certain operations can be performed on a device, but in order to do any
  * I/O you will have to first obtain a device handle using libusb_open().
@@ -2111,17 +2115,15 @@ enum libusb_option {
 	 * This is typically needed on Android, where access to USB devices
 	 * is limited.
 	 *
+	 * For LIBUSB_API_VERSION 0x01000108 it was called LIBUSB_OPTION_WEAK_AUTHORITY
+	 *
 	 * Only valid on Linux.
 	 */
 	LIBUSB_OPTION_NO_DEVICE_DISCOVERY = 2,
 
-	/** Flag that libusb has weak authority.
-	 *
-	 * (Deprecated) alias for LIBUSB_OPTION_NO_DEVICE_DISCOVERY
-	 */
-	LIBUSB_OPTION_WEAK_AUTHORITY = 3,
+#define LIBUSB_OPTION_WEAK_AUTHORITY LIBUSB_OPTION_NO_DEVICE_DISCOVERY
 
-	LIBUSB_OPTION_MAX = 4
+	LIBUSB_OPTION_MAX = 3
 };
 
 int LIBUSB_CALL libusb_set_option(libusb_context *ctx, enum libusb_option option, ...);
