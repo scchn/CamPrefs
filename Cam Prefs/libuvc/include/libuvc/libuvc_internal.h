@@ -11,7 +11,7 @@
 #include <string.h>
 #include <pthread.h>
 #include <signal.h>
-#include "libusb.h"
+#include <libusb.h>
 #include "utlist.h"
 
 /** Converts an unaligned four-byte little-endian integer into an int32 */
@@ -224,9 +224,14 @@ typedef struct uvc_device_info {
   this macro.
  */
 #ifndef LIBUVC_NUM_TRANSFER_BUFS
+#if defined(__APPLE__) && defined(__MACH__)
+#define LIBUVC_NUM_TRANSFER_BUFS 20
+#else
 #define LIBUVC_NUM_TRANSFER_BUFS 100
 #endif
+#endif
 
+#define LIBUVC_XFER_META_BUF_SIZE ( 4 * 1024 )
 
 struct uvc_stream_handle {
   struct uvc_device_handle *devh;

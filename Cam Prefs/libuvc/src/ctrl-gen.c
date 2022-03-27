@@ -186,7 +186,7 @@ uvc_error_t uvc_set_ae_priority(uvc_device_handle_t *devh, uint8_t priority) {
  * 
  * See uvc_set_exposure_abs() for a description of the `time` field.
  * @param devh UVC device handle
- * @param[out] time time
+ * @param[out] time 
  * @param req_code UVC_GET_* request to execute
  */
 uvc_error_t uvc_get_exposure_abs(uvc_device_handle_t *devh, uint32_t* time, enum uvc_req_code req_code) {
@@ -218,7 +218,7 @@ uvc_error_t uvc_get_exposure_abs(uvc_device_handle_t *devh, uint32_t* time, enum
  * for a 10ms exposure period). Auto exposure should be set to `manual` or `shutter_priority`
  * before attempting to change this setting.
  * @param devh UVC device handle
- * @param time time
+ * @param time 
  */
 uvc_error_t uvc_set_exposure_abs(uvc_device_handle_t *devh, uint32_t time) {
   uint8_t data[4];

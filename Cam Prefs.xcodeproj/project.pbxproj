@@ -15,7 +15,6 @@
 		7436622B26899B3900F94480 /* ctrl.c in Sources */ = {isa = PBXBuildFile; fileRef = 7436622226899B3900F94480 /* ctrl.c */; };
 		7436622C26899B3900F94480 /* diag.c in Sources */ = {isa = PBXBuildFile; fileRef = 7436622326899B3900F94480 /* diag.c */; };
 		7436622D26899B3900F94480 /* init.c in Sources */ = {isa = PBXBuildFile; fileRef = 7436622426899B3900F94480 /* init.c */; };
-		7436622E26899B3900F94480 /* ctrl-gen.py in Resources */ = {isa = PBXBuildFile; fileRef = 7436622526899B3900F94480 /* ctrl-gen.py */; };
 		7436622F26899B3900F94480 /* device.c in Sources */ = {isa = PBXBuildFile; fileRef = 7436622626899B3900F94480 /* device.c */; };
 		7436623026899B3900F94480 /* frame.c in Sources */ = {isa = PBXBuildFile; fileRef = 7436622726899B3900F94480 /* frame.c */; };
 		7436623126899B3900F94480 /* misc.c in Sources */ = {isa = PBXBuildFile; fileRef = 7436622826899B3900F94480 /* misc.c */; };
@@ -49,6 +48,69 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		09C0D1DB27F0C71900F202B1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 85780F3626C108B900554B85 /* libusb.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 008FBFF51628BB8B00BC5BE2;
+			remoteInfo = dpfp;
+		};
+		09C0D1DD27F0C71900F202B1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 85780F3626C108B900554B85 /* libusb.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 008FC0051628BBDB00BC5BE2;
+			remoteInfo = dpfp_threaded;
+		};
+		09C0D1DF27F0C71900F202B1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 85780F3626C108B900554B85 /* libusb.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 008FC0151628BC0300BC5BE2;
+			remoteInfo = fxload;
+		};
+		09C0D1E127F0C71900F202B1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 85780F3626C108B900554B85 /* libusb.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 006AD41C1C8C5A90007F8C6A;
+			remoteInfo = hotplugtest;
+		};
+		09C0D1E327F0C71900F202B1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 85780F3626C108B900554B85 /* libusb.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 008FC0261628BC6B00BC5BE2;
+			remoteInfo = listdevs;
+		};
+		09C0D1E527F0C71900F202B1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 85780F3626C108B900554B85 /* libusb.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 20468D67243298AE00650534;
+			remoteInfo = sam3u_benchmark;
+		};
+		09C0D1E727F0C71900F202B1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 85780F3626C108B900554B85 /* libusb.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 008A23D3236C8594004854AA;
+			remoteInfo = stress;
+		};
+		09C0D1E927F0C71900F202B1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 85780F3626C108B900554B85 /* libusb.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 20468D75243298D300650534;
+			remoteInfo = testlibusb;
+		};
+		09C0D1EB27F0C71900F202B1 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 85780F3626C108B900554B85 /* libusb.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 008FBFBD1628B9FE00BC5BE2;
+			remoteInfo = xusb;
+		};
 		85780F4426C108B900554B85 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 85780F3626C108B900554B85 /* libusb.xcodeproj */;
@@ -81,14 +143,12 @@
 		743661F0268994B300F94480 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		743661F1268994B300F94480 /* Cam_Prefs.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Cam_Prefs.entitlements; sourceTree = "<group>"; };
 		7436621B26899B3900F94480 /* utlist.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = utlist.h; sourceTree = "<group>"; };
-		7436621D26899B3900F94480 /* libuvc_config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = libuvc_config.h; sourceTree = "<group>"; };
 		7436621E26899B3900F94480 /* libuvc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = libuvc.h; sourceTree = "<group>"; };
 		7436621F26899B3900F94480 /* libuvc_internal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = libuvc_internal.h; sourceTree = "<group>"; };
 		7436622126899B3900F94480 /* ctrl-gen.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = "ctrl-gen.c"; sourceTree = "<group>"; };
 		7436622226899B3900F94480 /* ctrl.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = ctrl.c; sourceTree = "<group>"; };
 		7436622326899B3900F94480 /* diag.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = diag.c; sourceTree = "<group>"; };
 		7436622426899B3900F94480 /* init.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = init.c; sourceTree = "<group>"; };
-		7436622526899B3900F94480 /* ctrl-gen.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = "ctrl-gen.py"; sourceTree = "<group>"; };
 		7436622626899B3900F94480 /* device.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = device.c; sourceTree = "<group>"; };
 		7436622726899B3900F94480 /* frame.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = frame.c; sourceTree = "<group>"; };
 		7436622826899B3900F94480 /* misc.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = misc.c; sourceTree = "<group>"; };
@@ -201,7 +261,6 @@
 		7436621C26899B3900F94480 /* libuvc */ = {
 			isa = PBXGroup;
 			children = (
-				7436621D26899B3900F94480 /* libuvc_config.h */,
 				7436621E26899B3900F94480 /* libuvc.h */,
 				7436621F26899B3900F94480 /* libuvc_internal.h */,
 			);
@@ -215,7 +274,6 @@
 				7436622226899B3900F94480 /* ctrl.c */,
 				7436622326899B3900F94480 /* diag.c */,
 				7436622426899B3900F94480 /* init.c */,
-				7436622526899B3900F94480 /* ctrl-gen.py */,
 				7436622626899B3900F94480 /* device.c */,
 				7436622726899B3900F94480 /* frame.c */,
 				7436622826899B3900F94480 /* misc.c */,
@@ -296,6 +354,15 @@
 			isa = PBXGroup;
 			children = (
 				85780F4526C108B900554B85 /* libusb-1.0.0.dylib */,
+				09C0D1DC27F0C71900F202B1 /* dpfp */,
+				09C0D1DE27F0C71900F202B1 /* dpfp_threaded */,
+				09C0D1E027F0C71900F202B1 /* fxload */,
+				09C0D1E227F0C71900F202B1 /* hotplugtest */,
+				09C0D1E427F0C71900F202B1 /* listdevs */,
+				09C0D1E627F0C71900F202B1 /* sam3u_benchmark */,
+				09C0D1E827F0C71900F202B1 /* stress */,
+				09C0D1EA27F0C71900F202B1 /* testlibusb */,
+				09C0D1EC27F0C71900F202B1 /* xusb */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -369,6 +436,69 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
+		09C0D1DC27F0C71900F202B1 /* dpfp */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = dpfp;
+			remoteRef = 09C0D1DB27F0C71900F202B1 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		09C0D1DE27F0C71900F202B1 /* dpfp_threaded */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = dpfp_threaded;
+			remoteRef = 09C0D1DD27F0C71900F202B1 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		09C0D1E027F0C71900F202B1 /* fxload */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = fxload;
+			remoteRef = 09C0D1DF27F0C71900F202B1 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		09C0D1E227F0C71900F202B1 /* hotplugtest */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = hotplugtest;
+			remoteRef = 09C0D1E127F0C71900F202B1 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		09C0D1E427F0C71900F202B1 /* listdevs */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = listdevs;
+			remoteRef = 09C0D1E327F0C71900F202B1 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		09C0D1E627F0C71900F202B1 /* sam3u_benchmark */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = sam3u_benchmark;
+			remoteRef = 09C0D1E527F0C71900F202B1 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		09C0D1E827F0C71900F202B1 /* stress */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = stress;
+			remoteRef = 09C0D1E727F0C71900F202B1 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		09C0D1EA27F0C71900F202B1 /* testlibusb */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = testlibusb;
+			remoteRef = 09C0D1E927F0C71900F202B1 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		09C0D1EC27F0C71900F202B1 /* xusb */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = xusb;
+			remoteRef = 09C0D1EB27F0C71900F202B1 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		85780F4526C108B900554B85 /* libusb-1.0.0.dylib */ = {
 			isa = PBXReferenceProxy;
 			fileType = "compiled.mach-o.dylib";
@@ -386,7 +516,6 @@
 				743661EC268994B300F94480 /* Assets.xcassets in Resources */,
 				85C9BC2A268C4F6D001C8295 /* Localizable.strings in Resources */,
 				743661EF268994B300F94480 /* Main.storyboard in Resources */,
-				7436622E26899B3900F94480 /* ctrl-gen.py in Resources */,
 				7450F0A1269039930072955E /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

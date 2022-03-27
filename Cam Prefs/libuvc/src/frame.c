@@ -349,7 +349,7 @@ uvc_error_t uvc_yuyv2uv(uvc_frame_t *in, uvc_frame_t *out) {
 
 /** @brief Convert a frame from UYVY to RGB
  * @ingroup frame
- * @param in UYVY frame
+ * @param ini UYVY frame
  * @param out RGB frame
  */
 uvc_error_t uvc_uyvy2rgb(uvc_frame_t *in, uvc_frame_t *out) {
@@ -399,7 +399,7 @@ uvc_error_t uvc_uyvy2rgb(uvc_frame_t *in, uvc_frame_t *out) {
 
 /** @brief Convert a frame from UYVY to BGR
  * @ingroup frame
- * @param in UYVY frame
+ * @param ini UYVY frame
  * @param out BGR frame
  */
 uvc_error_t uvc_uyvy2bgr(uvc_frame_t *in, uvc_frame_t *out) {

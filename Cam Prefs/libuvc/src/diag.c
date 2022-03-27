@@ -100,7 +100,7 @@ const char* uvc_strerror(uvc_error_t err) {
 /** @brief Print the values in a stream control block
  * @ingroup diag
  *
- * @param ctrl UVC device
+ * @param devh UVC device
  * @param stream Output stream (stderr if NULL)
  */
 void uvc_print_stream_ctrl(uvc_stream_ctrl_t *ctrl, FILE *stream) {
@@ -285,6 +285,7 @@ void uvc_print_diag(uvc_device_handle_t *devh, FILE *stream) {
  * @ingroup diag
  *
  * @param devh UVC device
+ * @param stream Output stream (stderr if NULL)
  */
 void uvc_print_frameformats(uvc_device_handle_t *devh) {
 

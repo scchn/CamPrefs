@@ -281,7 +281,7 @@ uvc_error_t uvc_query_stream_ctrl(
 /** @internal
  * Run a streaming control query
  * @param[in] devh UVC device
- * @param[in,out] still_ctrl Control block
+ * @param[in,out] ctrl Control block
  * @param[in] probe Whether this is a probe query or a commit query
  * @param[in] req Query type
  */
@@ -457,7 +457,7 @@ uvc_frame_desc_t *uvc_find_frame_desc(uvc_device_handle_t *devh,
  *
  * @param[in] devh Device handle
  * @param[in,out] ctrl Control block
- * @param[in] cf Type of streaming format
+ * @param[in] format_class Type of streaming format
  * @param[in] width Desired frame width
  * @param[in] height Desired frame height
  * @param[in] fps Frame rate, frames per second
@@ -767,19 +767,22 @@ void _uvc_process_payload(uvc_stream_handle_t *strmh, uint8_t *payload, size_t p
       variable_offset += 6;
     }
 
-    if (header_len > variable_offset)
-    {
+    if (header_len > variable_offset) {
         // Metadata is attached to header
-        memcpy(strmh->meta_outbuf + strmh->meta_got_bytes, payload + variable_offset, header_len - variable_offset);
-        strmh->meta_got_bytes += header_len - variable_offset;
+        size_t meta_len = header_len - variable_offset;
+        if (strmh->meta_got_bytes + meta_len > LIBUVC_XFER_META_BUF_SIZE)
+          meta_len = LIBUVC_XFER_META_BUF_SIZE - strmh->meta_got_bytes; /* Avoid overflow. */
+        memcpy(strmh->meta_outbuf + strmh->meta_got_bytes, payload + variable_offset, meta_len);
+        strmh->meta_got_bytes += meta_len;
     }
   }
 
   if (data_len > 0) {
+    if (strmh->got_bytes + data_len > strmh->cur_ctrl.dwMaxVideoFrameSize)
+      data_len = strmh->cur_ctrl.dwMaxVideoFrameSize - strmh->got_bytes; /* Avoid overflow. */
     memcpy(strmh->outbuf + strmh->got_bytes, payload + header_len, data_len);
     strmh->got_bytes += data_len;
-
-    if (header_info & (1 << 1)) {
+    if (header_info & (1 << 1) || strmh->got_bytes == strmh->cur_ctrl.dwMaxVideoFrameSize) {
       /* The EOF bit is set, so publish the complete frame */
       _uvc_swap_buffers(strmh);
     }
@@ -956,7 +959,7 @@ uvc_error_t uvc_start_streaming(
  *             {uvc_get_stream_ctrl_format_size}
  * @param cb   User callback function. See {uvc_frame_callback_t} for restrictions.
  */
-__attribute__((deprecated)) uvc_error_t uvc_start_iso_streaming(
+uvc_error_t uvc_start_iso_streaming(
     uvc_device_handle_t *devh,
     uvc_stream_ctrl_t *ctrl,
     uvc_frame_callback_t *cb,
@@ -1036,8 +1039,8 @@ uvc_error_t uvc_stream_open_ctrl(uvc_device_handle_t *devh, uvc_stream_handle_t 
   strmh->outbuf = malloc( ctrl->dwMaxVideoFrameSize );
   strmh->holdbuf = malloc( ctrl->dwMaxVideoFrameSize );
 
-  strmh->meta_outbuf = malloc( ctrl->dwMaxVideoFrameSize );
-  strmh->meta_holdbuf = malloc( ctrl->dwMaxVideoFrameSize );
+  strmh->meta_outbuf = malloc( LIBUVC_XFER_META_BUF_SIZE );
+  strmh->meta_holdbuf = malloc( LIBUVC_XFER_META_BUF_SIZE );
    
   pthread_mutex_init(&strmh->cb_mutex, NULL);
   pthread_cond_init(&strmh->cb_cond, NULL);
@@ -1272,7 +1275,7 @@ fail:
  * @param strmh UVC stream
  * @param cb   User callback function. See {uvc_frame_callback_t} for restrictions.
  */
-__attribute__((deprecated)) uvc_error_t uvc_stream_start_iso(
+uvc_error_t uvc_stream_start_iso(
     uvc_stream_handle_t *strmh,
     uvc_frame_callback_t *cb,
     void *user_ptr
@@ -1379,7 +1382,7 @@ void _uvc_populate_frame(uvc_stream_handle_t *strmh) {
 /** Poll for a frame
  * @ingroup streaming
  *
- * @param strmh UVC device
+ * @param devh UVC device
  * @param[out] frame Location to store pointer to captured frame (NULL on error)
  * @param timeout_us >0: Wait at most N microseconds; 0: Wait indefinitely; -1: return immediately
  */
@@ -1476,7 +1479,7 @@ void uvc_stop_streaming(uvc_device_handle_t *devh) {
  *
  * Stops stream, ends threads and cancels pollers
  *
- * @param strmh UVC device
+ * @param devh UVC device
  */
 uvc_error_t uvc_stream_stop(uvc_stream_handle_t *strmh) {
   int i;
@@ -1488,15 +1491,12 @@ uvc_error_t uvc_stream_stop(uvc_stream_handle_t *strmh) {
 
   pthread_mutex_lock(&strmh->cb_mutex);
 
+  /* Attempt to cancel any running transfers, we can't free them just yet because they aren't
+   *   necessarily completed but they will be free'd in _uvc_stream_callback().
+   */
   for(i=0; i < LIBUVC_NUM_TRANSFER_BUFS; i++) {
-    if(strmh->transfers[i] != NULL) {
-      int res = libusb_cancel_transfer(strmh->transfers[i]);
-      if(res < 0 && res != LIBUSB_ERROR_NOT_FOUND ) {
-        free(strmh->transfers[i]->buffer);
-        libusb_free_transfer(strmh->transfers[i]);
-        strmh->transfers[i] = NULL;
-      }
-    }
+    if(strmh->transfers[i] != NULL)
+      libusb_cancel_transfer(strmh->transfers[i]);
   }
 
   /* Wait for transfers to complete/cancel */
